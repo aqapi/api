@@ -2,13 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pl.kozubek.measuringstation.app.station.mapper.MeasuringStationMapper">
 
-    <resultMap id="MeasuringStationMap" type="pl.kozubek.measuringstation.app.station.model.MeasuringStation">
-        <result column="id" property="id"/>
+    <resultMap id="MeasuringStationMap" type="Station">
+        <id column="id" property="id"/>
         <result column="station_name" property="stationName"/>
         <result column="gegr_lat" property="gegrLat"/>
         <result column="gegr_lon" property="gegrLon"/>
         <result column="city" property="city"/>
         <result column="address_street" property="addressStreet"/>
+    </resultMap>
+
+    <resultMap id="MeasuringStationWithCityAndCommuneSelect" type="StationDto">
+        <id column="stationId" property="id"/>
+        <result column="station_name" property="stationName"/>
+        <result column="gegr_lat" property="gegrLat"/>
+        <result column="gegr_lon" property="gegrLon"/>
+        <result column="address_street" property="addressStreet"/>
+        <association property="city" column="city" javaType="CityDto">
+            <id column="cityId" property="id"/>
+            <result column="city_name" property="cityName"/>
+            <association property="commune" column="commune" javaType="CommuneDto">
+                <id column="communeId" property="id"/>
+                <result column="commune_name" property="communeName"/>
+                <result column="district_name" property="districtName"/>
+                <result column="province_name" property="provinceName"/>
+            </association>
+        </association>
     </resultMap>
 
     <insert id="addMeasuringStation">
@@ -20,6 +38,25 @@
     <select id="getMeasuringStations" resultMap="MeasuringStationMap">
         SELECT id, station_name, gegr_lat, gegr_lon, city, address_street
         FROM MEASURING_STATION
+    </select>
+
+    <select id="getMeasuringStationWithCityAndCommune" resultMap="MeasuringStationWithCityAndCommuneSelect">
+        SELECT station.id  as stationId,
+               station.station_name,
+               station.gegr_lat,
+               station.gegr_lon,
+               station.address_street,
+               city.id     as cityId,
+               city.city_name,
+               communte.id as communeId,
+               communte.commune_name,
+               communte.district_name,
+               communte.province_name
+        FROM MEASURING_STATION station
+                 INNER JOIN MEASURING_CITY city
+                            ON station.city = city.id
+                 INNER JOIN MEASURING_CITY_COMMUNES communte
+                            ON city.commune = communte.id
     </select>
 
 </mapper>

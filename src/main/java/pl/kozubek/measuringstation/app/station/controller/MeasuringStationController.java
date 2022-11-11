@@ -3,6 +3,7 @@ package pl.kozubek.measuringstation.app.station.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.kozubek.measuringstation.app.station.model.MeasuringStation;
+import pl.kozubek.measuringstation.app.station.model.dto.MeasuringStationDto;
 import pl.kozubek.measuringstation.app.station.service.MeasuringStationService;
 
 import java.util.List;
@@ -17,6 +18,11 @@ public class MeasuringStationController {
     @GetMapping()
     public List<MeasuringStation> getMeasuringStations() {
         return stationService.getMeasuringStations();
+    }
+
+    @GetMapping("/all")
+    public List<MeasuringStationDto> getMeasuringStation() {
+        return stationService.getMeasuringStationWithCityAndCommune();
     }
 
     @GetMapping("/{measuringStationId}")

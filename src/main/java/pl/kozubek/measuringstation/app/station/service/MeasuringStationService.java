@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.kozubek.measuringstation.app.station.mapper.MeasuringStationMapper;
 import pl.kozubek.measuringstation.app.station.model.MeasuringStation;
+import pl.kozubek.measuringstation.app.station.model.dto.MeasuringStationDto;
 
 import java.util.List;
 
@@ -22,5 +23,9 @@ public class MeasuringStationService {
 
     public void addMeasuringStation(MeasuringStation station) {
         stationMapper.addMeasuringStation(station);
+    }
+
+    public List<MeasuringStationDto> getMeasuringStationWithCityAndCommune() {
+        return stationMapper.getMeasuringStationWithCityAndCommune();
     }
 }

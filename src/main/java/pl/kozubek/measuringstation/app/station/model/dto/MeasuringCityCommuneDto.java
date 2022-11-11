@@ -1,4 +1,4 @@
-package pl.kozubek.measuringstation.app.station.model;
+package pl.kozubek.measuringstation.app.station.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MeasuringCityCommunes {
+public class MeasuringCityCommuneDto {
     private Long id;
     private String communeName;
     private String districtName;

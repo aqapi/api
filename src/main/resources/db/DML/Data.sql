@@ -10,7 +10,14 @@ CREATE TABLE MEASURING_DATA
 
 CREATE TABLE MEASURING_DATA_VALUES
 (
-    id              bigint REFERENCES MEASURING_DATA (id),
+    id              bigint NOT NULL AUTO_INCREMENT,
     date_of_reading DATETIME,
-    pollution_value float
+    pollution_value float,
+    CONSTRAINT PK_VALUES PRIMARY KEY (id)
+);
+
+CREATE TABLE DATA_VALUES
+(
+    data_id  bigint REFERENCES MEASURING_DATA (id),
+    value_id bigint REFERENCES MEASURING_DATA_VALUES (id)
 );

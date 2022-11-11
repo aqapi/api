@@ -8,11 +8,11 @@
 
     <resultMap id="MeasuringDataWithValuesMap" type="DataDto">
         <id column="dataId" property="id"/>
-        <result column="pollution_key" property="key"/>
-        <collection property="values" column="dataId" javaType="ArrayList" ofType="ValueDto">
+        <result column="key" property="key"/>
+        <collection property="values" ofType="ValueDto">
             <id column="valueId" property="id"/>
-            <result column="date_of_reading" property="date"/>
-            <result column="pollution_value" property="value"/>
+            <result column="date" property="date"/>
+            <result column="value" property="value"/>
         </collection>
     </resultMap>
 
@@ -23,14 +23,14 @@
     </select>
 
     <select id="getDataWithValue" resultMap="MeasuringDataWithValuesMap">
-        SELECT data.id    as dataId,
-               data.pollution_key,
-               `value`.id as valueId,
-               `value`.date_of_reading,
-               `value`.pollution_value
-        FROM MEASURING_DATA data
-                 INNER JOIN MEASURING_DATA_VALUES `value`
-                            ON data.id = `value`.id
-        ORDER BY `value`.date_of_reading DESC
+        SELECT D.id              as dataId,
+               D.pollution_key   as `key`,
+               V.id              as valueId,
+               V.date_of_reading as `date`,
+               V.pollution_value as `value`
+        FROM MEASURING_DATA D
+                 LEFT OUTER JOIN DATA_VALUES DV ON D.id = DV.data_id
+                 RIGHT OUTER JOIN MEASURING_DATA_VALUES V ON V.id = DV.value_id
+        ORDER BY V.date_of_reading DESC
     </select>
 </mapper>

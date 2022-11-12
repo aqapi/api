@@ -3,14 +3,14 @@
 
 CREATE TABLE MEASURING_DATA
 (
-    id            bigint NOT NULL AUTO_INCREMENT,
+    id            bigint NOT NULL generated always as identity (increment by 1),
     pollution_key VARCHAR,
     CONSTRAINT PK_DATA PRIMARY KEY (id)
 );
 
 CREATE TABLE MEASURING_DATA_VALUES
 (
-    id              bigint NOT NULL AUTO_INCREMENT,
+    id              bigint NOT NULL generated always as identity (increment by 1),
     date_of_reading DATETIME,
     pollution_value float,
     CONSTRAINT PK_VALUES PRIMARY KEY (id)
@@ -18,6 +18,6 @@ CREATE TABLE MEASURING_DATA_VALUES
 
 CREATE TABLE DATA_VALUES
 (
-    data_id bigint REFERENCES MEASURING_DATA(id),
-    value_id bigint REFERENCES MEASURING_DATA_VALUES(id)
+    data_id  bigint REFERENCES MEASURING_DATA (id),
+    value_id bigint REFERENCES MEASURING_DATA_VALUES (id)
 );

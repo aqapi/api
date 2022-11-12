@@ -31,7 +31,7 @@ public class MeasuringStationController {
     }
 
     @PostMapping
-    public void addMeasuringStation(@RequestBody MeasuringStation station) {
-        stationService.addMeasuringStation(station);
+    public void addMeasuringStation(@RequestBody MeasuringStationDto station) {
+        stationService.addMeasuringStationWithCityAndCommune(station);
     }
 }

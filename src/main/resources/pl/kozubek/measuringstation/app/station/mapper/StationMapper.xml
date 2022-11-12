@@ -19,7 +19,7 @@
         <result column="address_street" property="addressStreet"/>
         <association property="city" column="city" javaType="CityDto">
             <id column="cityId" property="id"/>
-            <result column="city_name" property="cityName"/>
+            <result column="city_name" property="name"/>
             <association property="commune" column="commune" javaType="CommuneDto">
                 <id column="communeId" property="id"/>
                 <result column="commune_name" property="communeName"/>
@@ -28,12 +28,6 @@
             </association>
         </association>
     </resultMap>
-
-    <insert id="addMeasuringStation">
-        INSERT INTO MEASURING_STATION (id, station_name, gegr_lat, gegr_lon, city, address_street)
-        VALUES (#{MEASURING_STATION.id}, #{MEASURING_STATION.stationName}, #{MEASURING_STATION.gegrLat},
-                #{MEASURING_STATION.gegrLon}, #{MEASURING_STATION.city}, #{MEASURING_STATION.addressStreet})
-    </insert>
 
     <select id="getMeasuringStations" resultMap="MeasuringStationMap">
         SELECT id, station_name, gegr_lat, gegr_lon, city, address_street
@@ -59,4 +53,19 @@
                             ON city.commune = communte.id
     </select>
 
+    <insert id="addMeasuringCommune" parameterType="Commune" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO MEASURING_CITY_COMMUNES (commune_name, district_name, province_name)
+        VALUES (#{measuringCommune.communeName}, #{measuringCommune.districtName}, #{measuringCommune.provinceName})
+    </insert>
+
+    <insert id="addMeasuringCity" parameterType="City">
+        INSERT INTO MEASURING_CITY (id, city_name, commune)
+        VALUES (#{measuringCity.id}, #{measuringCity.name}, #{measuringCity.commune})
+    </insert>
+
+    <insert id="addMeasuringStation" parameterType="Station">
+        INSERT INTO MEASURING_STATION (id, station_name, gegr_lat, gegr_lon, city, address_street)
+        VALUES (#{measuringStation.id}, #{measuringStation.stationName}, #{measuringStation.gegrLat},
+                #{measuringStation.gegrLon}, #{measuringStation.city}, #{measuringStation.addressStreet})
+    </insert>
 </mapper>

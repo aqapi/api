@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MeasuringCityDto {
     private Long id;
-    private String cityName;
+    private String name;
     private MeasuringCityCommuneDto commune;
 }

@@ -24,4 +24,12 @@ public interface MeasuringStationMapper extends ModelMapper {
     void addMeasuringCity(@Param("measuringCity") MeasuringCity city);
 
     void addMeasuringStation(@Param("measuringStation") MeasuringStation station);
+
+    boolean existStationById(@Param("id") Long id);
+
+    boolean existCityById(@Param("id") Long id);
+
+    boolean existCommuneByCommuneNameAndDistrictNameAndProvinceName(@Param("communeName") String communeName,
+                                                                    @Param("districtName") String districtName,
+                                                                    @Param("provinceName") String provinceName);
 }

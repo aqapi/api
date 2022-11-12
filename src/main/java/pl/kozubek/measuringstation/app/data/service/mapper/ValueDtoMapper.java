@@ -5,7 +5,9 @@ import org.springframework.stereotype.Component;
 import pl.kozubek.measuringstation.app.data.model.MeasuringValue;
 import pl.kozubek.measuringstation.app.data.model.dto.MeasuringValueDto;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -19,6 +21,8 @@ public class ValueDtoMapper {
     }
 
     public List<MeasuringValue> to(List<MeasuringValueDto> valuesDto) {
+        if (Objects.isNull(valuesDto))
+            return Collections.emptyList();
         return valuesDto.stream()
                 .map(this::to)
                 .toList();

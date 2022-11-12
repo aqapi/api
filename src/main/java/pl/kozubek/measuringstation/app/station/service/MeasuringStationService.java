@@ -44,9 +44,15 @@ public class MeasuringStationService {
         MeasuringCity city = cityDtoMapper.to(stationDto.getCity());
         MeasuringStation station = stationDtoMapper.to(stationDto);
 
-        stationMapper.addMeasuringCommune(commune);
-        city.setCommune(commune.getId());
-        stationMapper.addMeasuringCity(city);
-        stationMapper.addMeasuringStation(station);
+        if (stationMapper.existCommuneByCommuneNameAndDistrictNameAndProvinceName(commune.getCommuneName(),
+                commune.getDistrictName(),
+                commune.getProvinceName()))
+            stationMapper.addMeasuringCommune(commune);
+        if (stationMapper.existCityById(city.getId())) {
+            city.setCommune(commune.getId());
+            stationMapper.addMeasuringCity(city);
+        }
+        if (stationMapper.existStationById(station.getId()))
+            stationMapper.addMeasuringStation(station);
     }
 }

@@ -19,7 +19,7 @@ public class MeasuringClient {
                 MeasuringStationDto[].class));
     }
 
-    public MeasuringDataDto getData(int idStation) {
+    public MeasuringDataDto getData(Long idStation) {
         return callGetMethod("/data/getData/{station}",
                 MeasuringDataDto.class,
                 idStation);

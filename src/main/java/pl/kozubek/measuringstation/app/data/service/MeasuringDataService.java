@@ -11,6 +11,7 @@ import pl.kozubek.measuringstation.app.data.service.mapper.DataDtoMapper;
 import pl.kozubek.measuringstation.app.data.service.mapper.ValueDtoMapper;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,13 @@ public class MeasuringDataService {
     public void addMeasuringDataWithValue(MeasuringDataDto dataDto) {
         List<MeasuringValue> values = valueDtoMapper.to(dataDto.getValues());
         MeasuringData data = dataDtoMapper.to(dataDto);
-        Long dataId = dataMapper.addData(data);
+
+
+        if (Objects.isNull(values) || Objects.isNull(data))
+            return;
+
+        dataMapper.addData(data);
+        Long dataId = data.getId();
         for (MeasuringValue value : values) {
             dataMapper.addValue(value);
             Long valueId = value.getId();

@@ -11,6 +11,19 @@
         <result column="address_street" property="addressStreet"/>
     </resultMap>
 
+    <resultMap id="MeasuringCityMap" type="City">
+        <id column="id" property="id"/>
+        <result column="city_name" property="cityName"/>
+        <result column="commune" property="commune"/>
+    </resultMap>
+
+    <resultMap id="MeasuringCommuneMap" type="Commune">
+        <id column="id" property="id"/>
+        <result column="commune_name" property="communeName"/>
+        <result column="district_name" property="districtName"/>
+        <result column="province_name" property="provinceName"/>
+    </resultMap>
+
     <resultMap id="MeasuringStationWithCityAndCommuneSelect" type="StationDto">
         <id column="stationId" property="id"/>
         <result column="station_name" property="stationName"/>
@@ -51,6 +64,41 @@
                             ON station.city = city.id
                  INNER JOIN MEASURING_CITY_COMMUNES communte
                             ON city.commune = communte.id
+    </select>
+
+    <select id="existStationById" resultType="java.lang.Boolean">
+        SELECT CASE
+                   WHEN EXISTS(
+                           SELECT 1
+                           FROM MEASURING_STATION
+                           WHERE id = #{id})
+                       THEN 'FALSE'
+                   ELSE 'TRUE'
+                   END
+    </select>
+
+    <select id="existCityById" resultType="java.lang.Boolean">
+        SELECT CASE
+                   WHEN EXISTS(
+                           SELECT 1
+                           FROM MEASURING_CITY
+                           WHERE id = #{id})
+                       THEN 'FALSE'
+                   ELSE 'TRUE'
+                   END
+    </select>
+
+    <select id="existCommuneByCommuneNameAndDistrictNameAndProvinceName" resultType="java.lang.Boolean">
+        SELECT CASE
+                   WHEN EXISTS(
+                           SELECT 1
+                           FROM MEASURING_CITY_COMMUNES
+                           WHERE commune_name = #{communeName}
+                             AND district_name = #{districtName}
+                             AND province_name = #{provinceName})
+                       THEN 'FALSE'
+                   ELSE 'TRUE'
+                   END
     </select>
 
     <insert id="addMeasuringCommune" parameterType="Commune" useGeneratedKeys="true" keyProperty="id" keyColumn="id">

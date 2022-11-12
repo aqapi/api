@@ -33,4 +33,19 @@
                  RIGHT OUTER JOIN MEASURING_DATA_VALUES V ON V.id = DV.value_id
         ORDER BY V.date_of_reading DESC
     </select>
+
+    <insert id="addData" parameterType="Data" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO MEASURING_DATA (pollution_key)
+        VALUES (#{key})
+    </insert>
+
+    <insert id="addValue" parameterType="Value" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO MEASURING_DATA_VALUES (date_of_reading, pollution_value)
+        VALUES (#{date}, #{value})
+    </insert>
+
+    <insert id="connectDataAndValue">
+        INSERT INTO DATA_VALUES (data_id, value_id)
+        VALUES (#{dataId}, #{valueId})
+    </insert>
 </mapper>

@@ -3,6 +3,8 @@ package pl.kozubek.measuringstation.app.station.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kozubek.measuringstation.app.data.model.dto.MeasuringDataDto;
+import pl.kozubek.measuringstation.app.data.service.MeasuringDataService;
 import pl.kozubek.measuringstation.app.station.mapper.MeasuringStationMapper;
 import pl.kozubek.measuringstation.app.station.model.MeasuringCity;
 import pl.kozubek.measuringstation.app.station.model.MeasuringCityCommune;
@@ -11,6 +13,7 @@ import pl.kozubek.measuringstation.app.station.model.dto.MeasuringStationDto;
 import pl.kozubek.measuringstation.app.station.service.mapper.CityDtoMapper;
 import pl.kozubek.measuringstation.app.station.service.mapper.CommuneDtoMapper;
 import pl.kozubek.measuringstation.app.station.service.mapper.StationDtoMapper;
+import pl.kozubek.measuringstation.webClient.MeasuringClient;
 
 import java.util.List;
 
@@ -21,6 +24,8 @@ public class MeasuringStationService {
     private final StationDtoMapper stationDtoMapper;
     private final CityDtoMapper cityDtoMapper;
     private final CommuneDtoMapper communeDtoMapper;
+    private final MeasuringClient client;
+    private final MeasuringDataService dataService;
 
     public MeasuringStation getMeasuringStation(Long measuringStationId) {
         return stationMapper.getMeasuringStation(measuringStationId);
@@ -54,5 +59,19 @@ public class MeasuringStationService {
         }
         if (stationMapper.existStationById(station.getId()))
             stationMapper.addMeasuringStation(station);
+    }
+
+    public Boolean callToGiosApi() {
+        try {
+            List<MeasuringStationDto> stationDtos = client.getMeasuringStation();
+            for (MeasuringStationDto stationDto : stationDtos) {
+                addMeasuringStationWithCityAndCommune(stationDto);
+                MeasuringDataDto dataDto = client.getData(stationDto.getId());
+                dataService.addMeasuringDataWithValue(dataDto);
+            }
+        } catch (Exception e) {
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 }

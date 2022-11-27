@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MeasuringDataDto {
     private Long id;
+    private Long stationId;
     private String key;
     private List<MeasuringValueDto> values;
 }

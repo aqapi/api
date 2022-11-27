@@ -37,7 +37,7 @@ public class MeasuringStationController {
     }
 
     @GetMapping("/nearestStation")
-    public MeasuringStationDto getStationByNearestLocalization(LocalizationDto localization) {
+    public MeasuringDataDto getStationByNearestLocalization(LocalizationDto localization) {
         return stationService.getStationByNearestLocalization(localization.gegrLan(), localization.gegrLon());
     }
 }

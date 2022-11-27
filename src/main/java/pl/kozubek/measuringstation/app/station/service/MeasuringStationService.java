@@ -2,6 +2,7 @@ package pl.kozubek.measuringstation.app.station.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.kozubek.measuringstation.app.data.model.dto.MeasuringDataDto;
 import pl.kozubek.measuringstation.app.data.service.MeasuringDataService;
 import pl.kozubek.measuringstation.app.station.mapper.MeasuringStationMapper;
 import pl.kozubek.measuringstation.app.station.model.MeasuringStation;
@@ -35,7 +36,7 @@ public class MeasuringStationService {
         return stationMapper.getMeasuringStationWithCityAndCommune();
     }
 
-    public MeasuringStationDto getStationByNearestLocalization(Long gegrLan, Long gegrLon) {
+    public MeasuringDataDto getStationByNearestLocalization(Long gegrLan, Long gegrLon) {
         return stationMapper.getStationByNearestLocalization(gegrLan, gegrLon);
     }
 }

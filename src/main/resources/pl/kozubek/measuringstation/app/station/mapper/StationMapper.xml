@@ -42,6 +42,15 @@
         </association>
     </resultMap>
 
+    <resultMap id="MeasuringDataNearingGeoLoc" type="DataDto">
+        <id column="dataId" property="id"/>
+        <result column="stationId" property="stationId"/>
+        <collection property="values" ofType="ValueDto">
+            <result column="date" property="date"/>
+            <result column="value" property="value"/>
+        </collection>
+    </resultMap>
+
     <select id="getMeasuringStations" resultMap="MeasuringStationMap">
         SELECT id, station_name, gegr_lat, gegr_lon, city, address_street
         FROM MEASURING_STATION
@@ -101,18 +110,11 @@
                    END
     </select>
 
-    <select id="getStationByNearestLocalization" resultMap="MeasuringStationWithCityAndCommuneSelect">
-        SELECT station.id as stationId,
-               station.station_name,
-               station.gegr_lat,
-               station.gegr_lon,
-               station.address_street,
-               city.id    as cityId,
-               city.city_name,
-               commune.id as communeId,
-               commune.commune_name,
-               commune.district_name,
-               commune.province_name
+    <select id="getStationByNearestLocalization" resultMap="MeasuringDataNearingGeoLoc">
+        SELECT data.id             as dataId,
+               data.stationId      as stationId,
+               val.date_of_reading as `date`,
+               val.pollution_value as `value`
         FROM (SELECT S.ID,
                      S.STATION_NAME,
                      S.GEGR_LAT,
@@ -127,22 +129,12 @@
                             ON station.CITY = city.ID
                  INNER JOIN MEASURING_CITY_COMMUNES commune
                             ON city.COMMUNE = commune.ID
+                 INNER JOIN MEASURING_DATA data
+                            ON data.stationId = station.id
+                 INNER JOIN DATA_VALUES con
+                            ON con.data_id = data.id AND con.data_id = data.id
+                 INNER JOIN MEASURING_DATA_VALUES val
+                            ON val.id = con.value_id
         ORDER BY Distance LIMIT 1
     </select>
-
-    <insert id="addMeasuringCommune" parameterType="Commune" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO MEASURING_CITY_COMMUNES (commune_name, district_name, province_name)
-        VALUES (#{measuringCommune.communeName}, #{measuringCommune.districtName}, #{measuringCommune.provinceName})
-    </insert>
-
-    <insert id="addMeasuringCity" parameterType="City">
-        INSERT INTO MEASURING_CITY (id, city_name, commune)
-        VALUES (#{measuringCity.id}, #{measuringCity.name}, #{measuringCity.commune})
-    </insert>
-
-    <insert id="addMeasuringStation" parameterType="Station">
-        INSERT INTO MEASURING_STATION (id, station_name, gegr_lat, gegr_lon, city, address_street)
-        VALUES (#{measuringStation.id}, #{measuringStation.stationName}, #{measuringStation.gegrLat},
-                #{measuringStation.gegrLon}, #{measuringStation.city}, #{measuringStation.addressStreet})
-    </insert>
 </mapper>

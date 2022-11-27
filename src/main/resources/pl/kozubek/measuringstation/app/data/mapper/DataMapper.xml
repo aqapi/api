@@ -3,11 +3,13 @@
 <mapper namespace="pl.kozubek.measuringstation.app.data.mapper.MeasuringDataMapper">
     <resultMap id="MeasuringDataMap" type="Data">
         <id column="id" property="id"/>
-        <result column="pollution_key" property="key"/>
+        <result column="stationId" property="stationId"/>
+        <result column="key" property="key"/>
     </resultMap>
 
     <resultMap id="MeasuringDataWithValuesMap" type="DataDto">
         <id column="dataId" property="id"/>
+        <result column="stationId" property="stationId"/>
         <result column="key" property="key"/>
         <collection property="values" ofType="ValueDto">
             <id column="valueId" property="id"/>
@@ -33,21 +35,6 @@
                  RIGHT OUTER JOIN MEASURING_DATA_VALUES V ON V.id = DV.value_id
         ORDER BY V.date_of_reading DESC
     </select>
-
-    <insert id="addData" parameterType="Data" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO MEASURING_DATA (pollution_key)
-        VALUES (#{key})
-    </insert>
-
-    <insert id="addValue" parameterType="Value" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO MEASURING_DATA_VALUES (date_of_reading, pollution_value)
-        VALUES (#{date}, #{value})
-    </insert>
-
-    <insert id="connectDataAndValue">
-        INSERT INTO DATA_VALUES (data_id, value_id)
-        VALUES (#{dataId}, #{valueId})
-    </insert>
 
     <select id="getMeasuringData" resultMap="MeasuringDataWithValuesMap">
         SELECT D.id              as dataId,

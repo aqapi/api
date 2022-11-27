@@ -15,9 +15,13 @@ public interface MeasuringDataMapper extends ModelMapper {
 
     MeasuringDataDto getDataWithValue();
 
-    Long addData(MeasuringData data);
+    //Long
+    void addData(MeasuringData data);
 
-    Long addValue(MeasuringValue value);
+    //Long
+    void addValue(MeasuringValue value);
 
     void connectDataAndValue(@Param("dataId") Long dataId, @Param("valueId") Long valueId);
+
+    MeasuringDataDto getMeasuringData(@Param("dataId") Long id);
 }

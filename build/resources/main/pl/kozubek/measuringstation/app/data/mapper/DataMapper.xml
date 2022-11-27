@@ -48,4 +48,17 @@
         INSERT INTO DATA_VALUES (data_id, value_id)
         VALUES (#{dataId}, #{valueId})
     </insert>
+
+    <select id="getMeasuringData" resultMap="MeasuringDataWithValuesMap">
+        SELECT D.id              as dataId,
+               D.pollution_key   as `key`,
+               V.id              as valueId,
+               V.date_of_reading as `date`,
+               V.pollution_value as `value`
+        FROM MEASURING_DATA D
+                 LEFT OUTER JOIN DATA_VALUES DV ON D.id = DV.data_id
+                 RIGHT OUTER JOIN MEASURING_DATA_VALUES V ON V.id = DV.value_id
+        WHERE D.id = #{dataId}
+        ORDER BY V.date_of_reading DESC LIMIT 1
+    </select>
 </mapper>

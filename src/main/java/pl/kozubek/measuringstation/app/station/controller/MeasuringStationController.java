@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.kozubek.measuringstation.app.data.model.dto.MeasuringDataDto;
 import pl.kozubek.measuringstation.app.data.service.MeasuringDataService;
 import pl.kozubek.measuringstation.app.station.model.MeasuringStation;
+import pl.kozubek.measuringstation.app.station.model.dto.LocalizationDto;
 import pl.kozubek.measuringstation.app.station.model.dto.MeasuringStationDto;
 import pl.kozubek.measuringstation.app.station.service.MeasuringStationService;
 import pl.kozubek.measuringstation.webClient.MeasuringClient;
@@ -35,18 +36,8 @@ public class MeasuringStationController {
         return stationService.getMeasuringStation(id);
     }
 
-    @PostMapping
-    public void addMeasuringStation(@RequestBody MeasuringStationDto station) {
-        stationService.addMeasuringStationWithCityAndCommune(station);
-    }
-
-    @GetMapping("/dataAndStation")
-    public void callToGiosApi() {
-        List<MeasuringStationDto> stationDtos = client.getMeasuringStation();
-        for (MeasuringStationDto stationDto : stationDtos) {
-            stationService.addMeasuringStationWithCityAndCommune(stationDto);
-            MeasuringDataDto dataDto = client.getData(stationDto.getId());
-            dataService.addMeasuringDataWithValue(dataDto);
-        }
+    @GetMapping("/nearestStation")
+    public MeasuringStationDto getStationByNearestLocalization(LocalizationDto localization) {
+        return stationService.getStationByNearestLocalization(localization.gegrLan(), localization.gegrLon());
     }
 }

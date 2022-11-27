@@ -15,11 +15,13 @@ public interface MeasuringStationMapper extends ModelMapper {
 
     MeasuringStation getMeasuringStation(@Param("measuringStationId") Long id);
 
+    MeasuringStationDto getStationByNearestLocalization(@Param("gegrLat") Long gegrLat, @Param("gegrLon") Long gegrLon);
+
     List<MeasuringStation> getMeasuringStations();
 
     List<MeasuringStationDto> getMeasuringStationWithCityAndCommune();
 
-    Long addMeasuringCommune(@Param("measuringCommune") MeasuringCityCommune commune);
+    void addMeasuringCommune(@Param("measuringCommune") MeasuringCityCommune commune);
 
     void addMeasuringCity(@Param("measuringCity") MeasuringCity city);
 

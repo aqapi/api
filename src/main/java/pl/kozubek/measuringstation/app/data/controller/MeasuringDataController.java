@@ -25,8 +25,8 @@ public class MeasuringDataController {
         return dataService.getDataWithValue();
     }
 
-    @PostMapping
-    public void addMeasuringDataWithValue(@RequestBody MeasuringDataDto dataDto) {
-        dataService.addMeasuringDataWithValue(dataDto);
+    @GetMapping("/measuringData/{id}")
+    public MeasuringDataDto getMeasuringData(@PathVariable("id") Long id) {
+        return dataService.getMeasuringData(id);
     }
 }

@@ -4,6 +4,7 @@
 CREATE TABLE MEASURING_DATA
 (
     id            bigint NOT NULL AUTO_INCREMENT,
+    stationId     bigint NOT NULL REFERENCES MEASURING_STATION (id),
     pollution_key VARCHAR(200),
     PRIMARY KEY (id)
 );

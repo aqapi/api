@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MeasuringCity {
+public class MeasuringCityCommune {
     private Long id;
-    private String name;
-    private Long commune;
+    private String communeName;
+    private String districtName;
+    private String provinceName;
 }

@@ -8,8 +8,8 @@ RUN gradle clean build
 RUN ls build/**
 
 # app
-FROM openjdk:20-ea-17-jdk-slim
-RUN groupadd -r app && useradd -r -g app app
-COPY --from=build /usr/app/build/libs/measuringStation-0.0.1-SNAPSHOT.jar /home/app/app.jar
+FROM openjdk:17-jdk-slim-buster
+WORKDIR /app
+COPY --from=build /usr/app/build/libs/measuringStation.jar /app/app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/home/app/app.jar"]
+ENTRYPOINT ["java","-jar","/app/app.jar"]

@@ -36,4 +36,4 @@ jobs:
           aws-region: eu-central-1
 
       - name: Update Service
-        run: aws ecs update-service --cluster aqapi-api-cluster-main --service aqapi-api-main --force-new-deployment
+        run: aws ecs update-service --cluster aqapi-main --service aqapi-api-main --force-new-deployment

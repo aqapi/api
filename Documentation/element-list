@@ -1,0 +1,15 @@
+pl.kozubek.measuringstation
+pl.kozubek.measuringstation.app
+pl.kozubek.measuringstation.app.data.controller
+pl.kozubek.measuringstation.app.data.mapper
+pl.kozubek.measuringstation.app.data.model
+pl.kozubek.measuringstation.app.data.model.dto
+pl.kozubek.measuringstation.app.data.service
+pl.kozubek.measuringstation.app.station.controller
+pl.kozubek.measuringstation.app.station.mapper
+pl.kozubek.measuringstation.app.station.model
+pl.kozubek.measuringstation.app.station.model.dto
+pl.kozubek.measuringstation.app.station.service
+pl.kozubek.measuringstation.mybatis
+pl.kozubek.measuringstation.mybatis.annotation
+pl.kozubek.measuringstation.webClient

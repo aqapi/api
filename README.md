@@ -10,3 +10,7 @@ Endpointy odpowiedzialne za udostępnienie danych o stacjach jakości powietrza:
 - /station/all : udostępnienia liste stacji wraz z wszystkimi informacjami na temat stacji
 - /station/{measuringStationId} : udostępnienia stacje pomiarowe według podanego identyfikatora
 - /station/nearestStation : udostępnienia jakość powietrza z najbliższej stacji poprzez podanie lokalizacji geograficznej
+
+## Deployment
+
+This project uses GitHub Actions workflow. On every push to the `main` branch a container image is built, released to repository's Github Container Registry, and the ECS Service us updated to apply changes.
